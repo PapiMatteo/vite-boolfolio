@@ -5,7 +5,7 @@ export default {
     data() {
         return {
             baseUrl: 'http://127.0.0.1:8000',
-            curProject: null,
+            project: null,
             loading: false,
         };
     },
@@ -15,7 +15,13 @@ export default {
         axios
             .get(`${this.baseUrl}/api/projects/${this.$route.params.slug}`)
             .then((resp) => {
-                this.curProject = resp.data.results;
+                if(resp.success){
+                    this.project = resp.data.results;
+                } else {
+                    // Con $router posso spostare programmaticamente a una rotta scelta 
+                    this.$router.push({name: 'not-found'})
+                }
+                
             })
             .finally(() => {
                 this.loading = false;
@@ -30,7 +36,12 @@ export default {
             <h3>Loading...</h3>
         </div>
         <div v-else>
-            <h1>{{ curProject.title }}</h1>
+            <h1 class="mb-3">{{ project.title }}</h1>
+            <div class="mb-3">Tecnologie:
+                <span v-for="technology in project.technologies">{{ technology.name }}</span> 
+            </div>
+            <div class="mb-3">Tipologia: {{ project.type.name }}</div>
+            <div class="mb-3">Descrizione: {{ project.description }}</div>
         </div>
     </div>
 </template>
