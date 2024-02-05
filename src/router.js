@@ -26,7 +26,7 @@ const router = createRouter({
         // Not Found page inserita per ultima, SEMPRE
         {
             // Questo vuol dire tutto cio' che arriva dopo lo slash che non e' stato preso precedentemente
-            path      : '/:pathMath(.*)*',
+            path      : '/:pathMatch(.*)*',
             name      : 'not-found',
             component : NotFoundPage
         }
